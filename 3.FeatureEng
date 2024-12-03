@@ -1,0 +1,8 @@
+# Combine Data and Calculate Features
+def combine_and_feature_engineer(twitter_data, reddit_data):
+    combined_data = pd.concat([twitter_data, reddit_data], ignore_index=True)
+    combined_data['mention_count'] = combined_data['cleaned_text'].apply(lambda x: x.count('stock') + x.count('market'))
+    return combined_data
+
+# Example Usage:
+# combined_data = combine_and_feature_engineer(twitter_data, reddit_data)
