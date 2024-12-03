@@ -1,0 +1,10 @@
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+def visualize_sentiment_distribution(dataframe):
+    sns.histplot(dataframe['sentiment'], kde=True, bins=30)
+    plt.title('Sentiment Distribution')
+    plt.show()
+
+# Example Usage:
+# visualize_sentiment_distribution(combined_data)
