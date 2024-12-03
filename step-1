@@ -1,0 +1,2 @@
+1. Install Required Libraries
+pip install tweepy praw pandas numpy sklearn textblob matplotlib seaborn nltk
