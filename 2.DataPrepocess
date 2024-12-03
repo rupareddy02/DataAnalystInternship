@@ -1,0 +1,25 @@
+from textblob import TextBlob
+import nltk
+from nltk.corpus import stopwords
+import re
+
+nltk.download('stopwords')
+STOPWORDS = set(stopwords.words('english'))
+
+# Preprocessing Function
+def preprocess_text(text):
+    text = re.sub(r'http\S+', '', text)  # Remove URLs
+    text = re.sub(r'[^a-zA-Z\s]', '', text)  # Remove special characters
+    text = text.lower()  # Lowercase
+    text = ' '.join(word for word in text.split() if word not in STOPWORDS)  # Remove stopwords
+    return text
+
+# Add Sentiment Analysis
+def add_sentiment(dataframe, text_column):
+    dataframe['cleaned_text'] = dataframe[text_column].apply(preprocess_text)
+    dataframe['sentiment'] = dataframe['cleaned_text'].apply(lambda x: TextBlob(x).sentiment.polarity)
+    return dataframe
+
+# Example Usage:
+# twitter_data = add_sentiment(twitter_data, 'text')
+# reddit_data = add_sentiment(reddit_data, 'title')
