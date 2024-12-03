@@ -1,0 +1,23 @@
+step-2:Scraping Data
+
+import tweepy
+import praw
+import pandas as pd
+
+# Twitter Scraper
+def scrape_twitter(api_key, api_key_secret, bearer_token, query, count=100):
+    client = tweepy.Client(bearer_token=bearer_token)
+    tweets = client.search_recent_tweets(query=query, max_results=count)
+    data = [{'text': tweet.text} for tweet in tweets.data]
+    return pd.DataFrame(data)
+
+# Reddit Scraper
+def scrape_reddit(client_id, client_secret, user_agent, subreddit_name, count=100):
+    reddit = praw.Reddit(client_id=client_id, client_secret=client_secret, user_agent=user_agent)
+    subreddit = reddit.subreddit(subreddit_name)
+    data = [{'title': post.title, 'selftext': post.selftext} for post in subreddit.hot(limit=count)]
+    return pd.DataFrame(data)
+
+# Example Usage:
+# twitter_data = scrape_twitter(api_key, api_key_secret, bearer_token, query="stocks OR market", count=100)
+# reddit_data = scrape_reddit(client_id, client_secret, user_agent, "stocks", count=100)
